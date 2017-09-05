@@ -4,13 +4,10 @@ import os.path
 
 fileLocationPath = os.path.dirname(os.path.abspath('__file__'))
 fileLocationPathStatic = os.path.dirname(os.path.abspath('__file__'))
-if os.path.split(os.path.abspath(fileLocationPath))[0] == '/':
-    topLevelContents = os.listdir(fileLocationPath)
-else:
-    while os.path.split(os.path.abspath(fileLocationPath))[0] != '/':
-        fileLocationPath = os.path.split(os.path.abspath(fileLocationPath))[0]
-    
-    topLevelContents = os.listdir(fileLocationPath)
+while os.path.split(os.path.abspath(fileLocationPath))[0] != '/':
+    fileLocationPath = os.path.split(os.path.abspath(fileLocationPath))[0]
+#splits down to top level directory if not in root directory
+topLevelContents = os.listdir(fileLocationPath)
 
 topLevelContentsFormatted = "\n\t- ".join(topLevelContents)
 
@@ -27,5 +24,6 @@ message = """<html>
 f.write(message)
 f.close()
 new_tab = 'file://' + fileLocationPathStatic + '/myList.html'
+#format needed for opening new tab
 webbrowser.open_new_tab(new_tab)
 
