@@ -12,14 +12,17 @@ else:
     
     topLevelContents = os.listdir(fileLocationPath)
 
+topLevelContentsFormatted = "\n\t- ".join(topLevelContents)
+
 
 f = open('myList.html','w')
 message = """<html>
     <head></head>
-    <body><p>
-    {topLevelContents}
-    </p></body>
-    </html>""".format(topLevelContents = topLevelContents)
+    <body><pre><h1>
+    The contents of {fileLocationPath} are as follows:
+        - {topLevelContentsFormatted}
+    </h1></pre></body>
+    </html>""".format(fileLocationPath = fileLocationPath, topLevelContentsFormatted = topLevelContentsFormatted)
 
 f.write(message)
 f.close()
