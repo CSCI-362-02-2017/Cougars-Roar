@@ -26,7 +26,7 @@ do
   cat "$file" >> ../reports/report.html
   printf "</p>\n" >> ../reports/report.html
 done
-open ../reports/report.html
+firefox ../reports/report.html
 #adds to and opens report document
 rm -f ../testCasesExecutables/*.class
 rm -f ../temp/*
