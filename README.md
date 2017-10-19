@@ -2,7 +2,7 @@
 
 git clone
 
-cd into Cougars-Roar/TestAutomation
+cd into Cougars-Roar
 
 type "make run"
 
