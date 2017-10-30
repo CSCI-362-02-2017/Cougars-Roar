@@ -1,0 +1,13 @@
+// this is the format for testCasefiles:
+// 1.) testCaseID
+// 2.) Method
+// 3.) description
+// 4.) fgColor
+// 5.) bgColor
+// 6.) expectedOutput
+3
+getContrastRatio()
+This gets the contrast ratio
+0,0,0
+255,255,255
+21.0

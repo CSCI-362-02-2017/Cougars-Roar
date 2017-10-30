@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 
-//an example test executable
+//test case executable for ContrastChecker
 
 public class ContrastCheckerDriver{
   public static void main(String[] args) throws IOException, FileNotFoundException
@@ -59,16 +59,18 @@ public class ContrastCheckerDriver{
       String passfail = new Boolean(actual.equals(expected)).toString();
 
 
-      List<String> lines = Arrays.asList(testCaseID,method,description,fg,bg,expected,actual,passfail);
+      List<String> lines = Arrays.asList(testCaseID, method, description, fg, bg, expected, actual, passfail);
       for(int i = 0; i < lines.size(); i++){
         lines.set(i,"<TD>"+lines.get(i)+"</TD>\n");
       }
       try {
-          Path file = Paths.get("../temp/test1Report.txt");
+          Path file = Paths.get("../temp/test"+testCaseID+"Report.txt");
           Files.write(file, lines, Charset.forName("UTF-8"));    
       } catch (IOException e) {
           System.out.println(e);
       }
+
+      reader.close();
       textReader.close();
 
     }
