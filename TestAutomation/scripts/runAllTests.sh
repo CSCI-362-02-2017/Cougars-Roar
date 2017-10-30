@@ -5,11 +5,9 @@
 # A shell script to execute multiple test case executables
 rm -f ../reports/*
 #prevents repeating old reports
-for file in ../testCasesExecutables/*
-do
-  javac "$file"
-done
+
 cd ../testCasesExecutables/
+javac -classpath . *.java
 #allows for files to be executed
 for file in ../testCasesExecutables/*
 do
@@ -20,13 +18,27 @@ if [ ${file: -6} == ".class" ]; then
 fi
 done
 #executes files
+printf "<TABLE BORDER='5' CELLPADDING='4' CELLSPACING='3'>\n" >> ../reports/report.html
+printf "<TR>\n" >> ../reports/report.html
+printf "</TR>\n" >> ../reports/report.html
+printf "<TR>\n" >> ../reports/report.html
+printf "<TH>Test Case ID</TH>\n" >> ../reports/report.html
+printf "<TH>Method</TH>\n" >> ../reports/report.html
+printf "<TH>Description</TH>\n" >> ../reports/report.html
+printf "<TH>fgColor</TH>\n" >> ../reports/report.html
+printf "<TH>bgColor</TH>\n" >> ../reports/report.html
+printf "<TH>Expected</TH>\n" >> ../reports/report.html
+printf "<TH>Actual</TH>\n" >> ../reports/report.html
+printf "<TH>Test Passed?</TH>\n" >> ../reports/report.html
+printf "</TR>\n" >> ../reports/report.html
 for file in ../temp/*
 do
-  printf "<p>" >> ../reports/report.html
+  printf "<TR ALIGN='CENTER'>\n" >> ../reports/report.html
   cat "$file" >> ../reports/report.html
-  printf "</p>\n" >> ../reports/report.html
+  printf "</TR>\n" >> ../reports/report.html
 done
-firefox ../reports/report.html
+printf "</TABLE>" >> ../reports/report.html
+firefox ../reports/report.html || open ../reports/report.html
 #adds to and opens report document
 rm -f ../testCasesExecutables/*.class
 rm -f ../temp/*
