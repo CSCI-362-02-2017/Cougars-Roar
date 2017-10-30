@@ -10,24 +10,23 @@ import java.awt.Color;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-
 //test case executable for ContrastChecker
 
-public class ContrastCheckerDriver{
-  public static void main(String[] args) throws IOException, FileNotFoundException
-  {
+public class ContrastCheckerDriver {
+  public static void main(String[] args) throws IOException, FileNotFoundException {
     File folder = new File("../testCases");
     folder.mkdirs();
     File[] fileList = folder.listFiles();
 
-    for (File testfile : fileList){     
+    for (File testfile : fileList) {
       FileReader reader = new FileReader(testfile);
       BufferedReader textReader = new BufferedReader(reader);
       String line;
       List<String> lineList = new LinkedList<String>();
       while ((line = textReader.readLine()) != null) {
-        if (!line.contains("//")) lineList.add(line);
-      }  
+        if (!line.contains("//"))
+          lineList.add(line);
+      }
 
       String testCaseID = lineList.get(0);
       String method = lineList.get(1);
@@ -35,39 +34,45 @@ public class ContrastCheckerDriver{
       String fg = lineList.get(3);
       String bg = lineList.get(4);
       String expected = lineList.get(5);
-
-      String[] bgColors = bg.split(",");
-
-      Integer[] bgColorsInt = new Integer[bgColors.length];
-      for(int i = 0; i < bgColors.length; i++) {
-        bgColorsInt[i] = Integer.parseInt(bgColors[i]);
-      }
+      String actual = "Invalid Method";
 
       String[] fgColors = fg.split(",");
-
       Integer[] fgColorsInt = new Integer[fgColors.length];
-      for(int i = 0; i < fgColors.length; i++) {
+      for (int i = 0; i < fgColors.length; i++) {
         fgColorsInt[i] = Integer.parseInt(fgColors[i]);
       }
-      
-      Color fgColor = new Color(fgColorsInt[0],fgColorsInt[1],fgColorsInt[2]);
-      Color bgColor = new Color(bgColorsInt[0],bgColorsInt[1],bgColorsInt[2]);
 
-      double result = ContrastChecker.getConstrastRatio(fgColor, bgColor);
-      String actual = new Double(result).toString();
+      Color fgColor = new Color(fgColorsInt[0], fgColorsInt[1], fgColorsInt[2]);
+
+      if (method.contains("getC")){
+        String[] bgColors = bg.split(",");
+
+        Integer[] bgColorsInt = new Integer[bgColors.length];
+        for (int i = 0; i < bgColors.length; i++) {
+          bgColorsInt[i] = Integer.parseInt(bgColors[i]);
+        }
+
+        Color bgColor = new Color(bgColorsInt[0], bgColorsInt[1], bgColorsInt[2]);
+        double result = ContrastChecker.getConstrastRatio(fgColor, bgColor);
+        actual = new Double(result).toString();
+      }
+
+      if (method.contains("getL")){
+        double result = ContrastChecker.getLuminosity(fgColor);
+        actual = new Double(result).toString();
+      }
 
       String passfail = new Boolean(actual.equals(expected)).toString();
 
-
       List<String> lines = Arrays.asList(testCaseID, method, description, fg, bg, expected, actual, passfail);
-      for(int i = 0; i < lines.size(); i++){
-        lines.set(i,"<TD>"+lines.get(i)+"</TD>\n");
+      for (int i = 0; i < lines.size(); i++) {
+        lines.set(i, "<TD>" + lines.get(i) + "</TD>\n");
       }
       try {
-          Path file = Paths.get("../temp/test"+testCaseID+"Report.txt");
-          Files.write(file, lines, Charset.forName("UTF-8"));    
+        Path file = Paths.get("../temp/test" + testCaseID + "Report.txt");
+        Files.write(file, lines, Charset.forName("UTF-8"));
       } catch (IOException e) {
-          System.out.println(e);
+        System.out.println(e);
       }
 
       reader.close();
