@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,71 +14,55 @@ import java.nio.charset.Charset;
 //test case executable for ContrastChecker
 
 public class ContrastCheckerDriver {
-  public static void main(String[] args) throws IOException, FileNotFoundException {
-    File folder = new File("../testCases");
-    folder.mkdirs();
-    File[] fileList = folder.listFiles();
+  public static void main(String[] args){
 
-    for (File testfile : fileList) {
-      FileReader reader = new FileReader(testfile);
-      BufferedReader textReader = new BufferedReader(reader);
-      String line;
-      List<String> lineList = new LinkedList<String>();
-      while ((line = textReader.readLine()) != null) {
-        if (!line.contains("//"))
-          lineList.add(line);
+    String method = args[3];
+    String inputs = args[4];
+    String expected = args[5];
+
+    String[] inputList = inputs.split(";");
+
+    if(method.equals("getLuminosity()"))
+    {
+      String[] rgb = inputList[0].split(",");
+      int[] rgbint = new int[rgb.length];
+      for (int i=0; i < rgb.length; i++) {
+          rgbint[i] = Integer.parseInt(rgb[i]);
       }
 
-      String testCaseID = lineList.get(0);
-      String method = lineList.get(1);
-      String description = lineList.get(2);
-      String fg = lineList.get(3);
-      String bg = lineList.get(4);
-      String expected = lineList.get(5);
-      String actual = "Invalid Method";
+      Color rgbColor = new Color(rgbint[0],rgbint[1],rgbint[2]);
+      Double actual = ContrastChecker.getLuminosity(rgbColor);
+      Boolean result = actual.toString().equals(expected);
+      
+      System.out.println(actual.toString());
+      System.out.println(result.toString());
+    }
 
-      String[] fgColors = fg.split(",");
-      Integer[] fgColorsInt = new Integer[fgColors.length];
-      for (int i = 0; i < fgColors.length; i++) {
-        fgColorsInt[i] = Integer.parseInt(fgColors[i]);
+    if(method.equals("getContrastRatio()"))
+    {
+      //formatting inputs
+      String[] fgrgb = inputList[0].split(",");
+      String[] bgrgb = inputList[1].split(",");
+
+      int[] fgint = new int[fgrgb.length];
+      for (int i=0; i < fgrgb.length; i++) {
+          fgint[i] = Integer.parseInt(fgrgb[i]);
       }
 
-      Color fgColor = new Color(fgColorsInt[0], fgColorsInt[1], fgColorsInt[2]);
-
-      if (method.contains("getC")){
-        String[] bgColors = bg.split(",");
-
-        Integer[] bgColorsInt = new Integer[bgColors.length];
-        for (int i = 0; i < bgColors.length; i++) {
-          bgColorsInt[i] = Integer.parseInt(bgColors[i]);
-        }
-
-        Color bgColor = new Color(bgColorsInt[0], bgColorsInt[1], bgColorsInt[2]);
-        double result = ContrastChecker.getConstrastRatio(fgColor, bgColor);
-        actual = new Double(result).toString();
+      int[] bgint = new int[bgrgb.length];
+      for (int i=0; i < bgrgb.length; i++) {
+          bgint[i] = Integer.parseInt(bgrgb[i]);
       }
+      
+      Color fgcolor = new Color(fgint[0], fgint[1], fgint[2]);
+      Color bgcolor = new Color(bgint[0], bgint[1], bgint[2]);
 
-      if (method.contains("getL")){
-        double result = ContrastChecker.getLuminosity(fgColor);
-        actual = new Double(result).toString();
-      }
+      //gets result and compares to expected
+      Double actual = ContrastChecker.getConstrastRatio(fgcolor,bgcolor);
+      Boolean result = actual.toString().equals(expected);
 
-      String passfail = new Boolean(actual.equals(expected)).toString();
-
-      List<String> lines = Arrays.asList(testCaseID, method, description, fg, bg, expected, actual, passfail);
-      for (int i = 0; i < lines.size(); i++) {
-        lines.set(i, "<TD>" + lines.get(i) + "</TD>\n");
-      }
-      try {
-        Path file = Paths.get("../temp/test" + testCaseID + "Report.txt");
-        Files.write(file, lines, Charset.forName("UTF-8"));
-      } catch (IOException e) {
-        System.out.println(e);
-      }
-
-      reader.close();
-      textReader.close();
-
+      System.out.println(actual.toString());
+      System.out.println(result.toString());
     }
   }
 }

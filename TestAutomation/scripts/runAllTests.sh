@@ -3,43 +3,76 @@
 # Written by Julian Smith
 
 # A shell script to execute multiple test case executables
-rm -f ../reports/*
-#prevents repeating old reports
 
-cd ../testCasesExecutables/
-javac -classpath . *.java
-#allows for files to be executed
-for file in ../testCasesExecutables/*
+#cant compile compiled java classes
+rm -rf ../testCasesExecutables/*.class
+rm -rf ../reports/report.html
+rm -rf ../temp/*.txt
+
+#set up table
+echo "<TABLE BORDER='5' CELLPADDING='4' CELLSPACING='3'>" >> ../reports/report.html
+echo "<TR>" >> ../reports/report.html
+echo "</TR>" >> ../reports/report.html
+echo "<TR>" >> ../reports/report.html
+echo "<TH>Test Case ID</TH>" >> ../reports/report.html
+echo "<TH>Requirements</TH>" >> ../reports/report.html
+echo "<TH>Component</TH>" >> ../reports/report.html
+echo "<TH>Method</TH>" >> ../reports/report.html
+echo "<TH>Inputs</TH>" >> ../reports/report.html
+echo "<TH>Expected</TH>" >> ../reports/report.html
+echo "<TH>Actual</TH>" >> ../reports/report.html
+echo "<TH>Test Passed?</TH>" >> ../reports/report.html
+echo "</TR>" >> ../reports/report.html
+
+#compiles java classes
+javac ../testCasesExecutables/*
+
+for file in ../testCases/*
 do
-if [ ${file: -6} == ".class" ]; then
-  fileonly=$(basename $file)
-  name=$(echo "$fileonly" | cut -f 1 -d '.')
-  java "${name}"
-fi
+  i=0;
+  filenopath=${file##*/}
+  filenoext=${filenopath%.*}
+  while read line 
+  do
+  #ignores lines with # at start
+    [[ "${line:0:1}" = "#" ]] && continue
+    arr[$i]="$line"
+    echo ${arr[$i]} >> ../temp/"$filenoext"report.txt
+    i=$((i+1))
+  done < $file
+
+#assign variable names to array value
+  declare testid=${arr[0]}
+  declare requirement=${arr[1]}
+  declare component=${arr[2]}
+  declare method=${arr[3]}
+  declare inputs=${arr[4]}
+  declare expected=${arr[5]}
+
+  if [[ $component == "ContrastChecker" ]]
+  then
+    cd ../testCasesExecutables
+    java ContrastCheckerDriver "$testid" "$requirement" "$component" "$method" "$inputs" "$expected" >> ../temp/"$filenoext"report.txt
+    echo "# --END--" >> ../temp/"$filenoext"report.txt
+  fi
 done
-#executes files
-printf "<TABLE BORDER='5' CELLPADDING='4' CELLSPACING='3'>\n" >> ../reports/report.html
-printf "<TR>\n" >> ../reports/report.html
-printf "</TR>\n" >> ../reports/report.html
-printf "<TR>\n" >> ../reports/report.html
-printf "<TH>Test Case ID</TH>\n" >> ../reports/report.html
-printf "<TH>Method</TH>\n" >> ../reports/report.html
-printf "<TH>Description</TH>\n" >> ../reports/report.html
-printf "<TH>fgColor</TH>\n" >> ../reports/report.html
-printf "<TH>bgColor</TH>\n" >> ../reports/report.html
-printf "<TH>Expected</TH>\n" >> ../reports/report.html
-printf "<TH>Actual</TH>\n" >> ../reports/report.html
-printf "<TH>Test Passed?</TH>\n" >> ../reports/report.html
-printf "</TR>\n" >> ../reports/report.html
+
 for file in ../temp/*
 do
-  printf "<TR ALIGN='CENTER'>\n" >> ../reports/report.html
-  cat "$file" >> ../reports/report.html
-  printf "</TR>\n" >> ../reports/report.html
+echo "<TR ALIGN='CENTER'>" >> ../reports/report.html
+  while read line 
+  do
+  #ignores lines with # at start
+    [[ "${line:0:1}" = "#" ]] && continue
+    printf "<TD>" >> ../reports/report.html
+    arr[$i]="$line"
+    printf "${arr[$i]}" >> ../reports/report.html
+    echo "</TD>" >> ../reports/report.html
+    i=$((i+1))
+  done < $file
+echo "</TR>" >> ../reports/report.html
 done
-printf "</TABLE>" >> ../reports/report.html
-firefox ../reports/report.html || open ../reports/report.html
-#adds to and opens report document
-rm -f ../testCasesExecutables/*.class
-rm -f ../temp/*
-#removes all temps
+
+echo "</TABLE>" >> ../reports/report.html
+rm -rf ../testCasesExecutables/*.class
+open ../reports/report.html

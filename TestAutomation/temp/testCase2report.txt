@@ -4,4 +4,6 @@ ContrastChecker
 getLuminosity()
 255,255,255
 1.0
+1.0
+true
 # --END--
