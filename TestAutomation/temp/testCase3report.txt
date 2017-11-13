@@ -1,7 +1,7 @@
-2
+3
 this method gets the contrast ratio
 ContrastChecker
 getContrastRatio()
-255,255,255;0,0,0
+0,0,0;255,255,255
 21.0
 # --END--
