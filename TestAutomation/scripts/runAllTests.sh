@@ -37,10 +37,9 @@ do
   while read line 
   do
   #ignores lines with # at start
-    [[ "${line:0:2}" = "//" ]] && continue
+    [[ "${line:0:2}" = // ]] && continue
     arr[$i]="$line"
     echo ${arr[$i]} >> ../temp/"$filenoext"report.txt
-    echo ${arr[$i]}
     i=$((i+1))
   done < $file
 
@@ -56,21 +55,18 @@ do
   then
     cd ../testCasesExecutables
     java ContrastCheckerDriver "$testid" "$requirement" "$component" "$method" "$inputs" "$expected" >> ../temp/"$filenoext"report.txt &
-    echo "//--END--" >> ../temp/"$filenoext"report.txt
   fi
 
   if [[ $component == "ColorConverter" ]]
   then
     cd ../testCasesExecutables
     java ColorConverterDriver "$testid" "$requirement" "$component" "$method" "$inputs" "$expected" >> ../temp/"$filenoext"report.txt &
-    echo "//--END--" >> ../temp/"$filenoext"report.txt
   fi
 
   if [[ $component == "DistanceCalculator" ]]
   then
     cd ../testCasesExecutables
     java DistanceCalculatorDriver "$testid" "$requirement" "$component" "$method" "$inputs" "$expected" >> ../temp/"$filenoext"report.txt &
-    echo "//--END--" >> ../temp/"$filenoext"report.txt
   fi
 done
 
@@ -82,7 +78,7 @@ echo "<TR ALIGN='CENTER'>" >> ../reports/report.html
   while read line 
   do
   #ignores lines with # at start
-    [[ "${line:0:2}" = "//" ]] && continue
+    [[ "${line:0:1}" = "/" ]] && continue
     printf "<TD>" >> ../reports/report.html
     arr[$i]="$line"
     echo "${arr[$i]}" >> ../reports/report.html
@@ -94,4 +90,4 @@ done
 
 echo "</TABLE>" >> ../reports/report.html
 rm -rf ../testCasesExecutables/*.class
-firefox ../reports/report.html
+open ../reports/report.html
