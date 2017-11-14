@@ -4,4 +4,4 @@ DistanceCalculator
 calculate()
 255,255,255;255,255,255
 0.0
-# --END--
+// --END--

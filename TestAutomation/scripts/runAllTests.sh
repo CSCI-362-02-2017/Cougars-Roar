@@ -26,22 +26,25 @@ echo "</TR>" >> ../reports/report.html
 
 #compiles java classes
 javac ../testCasesExecutables/*
+wait
 
 for file in ../testCases/*
 do
   i=0;
   filenopath=${file##*/}
   filenoext=${filenopath%.*}
+
   while read line 
   do
   #ignores lines with # at start
     [[ "${line:0:2}" = "//" ]] && continue
     arr[$i]="$line"
     echo ${arr[$i]} >> ../temp/"$filenoext"report.txt
+    echo ${arr[$i]}
     i=$((i+1))
   done < $file
 
-#assign variable names to array value
+  #assign variable names to array value
   declare testid=${arr[0]}
   declare requirement=${arr[1]}
   declare component=${arr[2]}
@@ -52,17 +55,26 @@ do
   if [[ $component == "ContrastChecker" ]]
   then
     cd ../testCasesExecutables
-    java ContrastCheckerDriver "$testid" "$requirement" "$component" "$method" "$inputs" "$expected" >> ../temp/"$filenoext"report.txt
+    java ContrastCheckerDriver "$testid" "$requirement" "$component" "$method" "$inputs" "$expected" >> ../temp/"$filenoext"report.txt &
     echo "//--END--" >> ../temp/"$filenoext"report.txt
   fi
 
-    if [[ $component == "ColorConverter" ]]
+  if [[ $component == "ColorConverter" ]]
   then
     cd ../testCasesExecutables
-    java ColorConverterDriver "$testid" "$requirement" "$component" "$method" "$inputs" "$expected" >> ../temp/"$filenoext"report.txt
+    java ColorConverterDriver "$testid" "$requirement" "$component" "$method" "$inputs" "$expected" >> ../temp/"$filenoext"report.txt &
+    echo "//--END--" >> ../temp/"$filenoext"report.txt
+  fi
+
+  if [[ $component == "DistanceCalculator" ]]
+  then
+    cd ../testCasesExecutables
+    java DistanceCalculatorDriver "$testid" "$requirement" "$component" "$method" "$inputs" "$expected" >> ../temp/"$filenoext"report.txt &
     echo "//--END--" >> ../temp/"$filenoext"report.txt
   fi
 done
+
+wait
 
 for file in ../temp/*
 do
@@ -82,4 +94,4 @@ done
 
 echo "</TABLE>" >> ../reports/report.html
 rm -rf ../testCasesExecutables/*.class
-open ../reports/report.html
+firefox ../reports/report.html

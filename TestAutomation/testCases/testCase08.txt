@@ -1,7 +1,7 @@
-07
+8
 this method gets the luminosity
 ContrastChecker
 getLuminosity()
-0,0,0
-0.0
-# --END--
+255,0,255
+0.28
+// --END--
