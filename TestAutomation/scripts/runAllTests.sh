@@ -35,7 +35,7 @@ do
   while read line 
   do
   #ignores lines with # at start
-    [[ "${line:0:1}" = "#" ]] && continue
+    [[ "${line:0:2}" = "//" ]] && continue
     arr[$i]="$line"
     echo ${arr[$i]} >> ../temp/"$filenoext"report.txt
     i=$((i+1))
@@ -53,7 +53,14 @@ do
   then
     cd ../testCasesExecutables
     java ContrastCheckerDriver "$testid" "$requirement" "$component" "$method" "$inputs" "$expected" >> ../temp/"$filenoext"report.txt
-    echo "# --END--" >> ../temp/"$filenoext"report.txt
+    echo "//--END--" >> ../temp/"$filenoext"report.txt
+  fi
+
+    if [[ $component == "ColorConverter" ]]
+  then
+    cd ../testCasesExecutables
+    java ColorConverterDriver "$testid" "$requirement" "$component" "$method" "$inputs" "$expected" >> ../temp/"$filenoext"report.txt
+    echo "//--END--" >> ../temp/"$filenoext"report.txt
   fi
 done
 
@@ -63,7 +70,7 @@ echo "<TR ALIGN='CENTER'>" >> ../reports/report.html
   while read line 
   do
   #ignores lines with # at start
-    [[ "${line:0:1}" = "#" ]] && continue
+    [[ "${line:0:2}" = "//" ]] && continue
     printf "<TD>" >> ../reports/report.html
     arr[$i]="$line"
     printf "${arr[$i]}" >> ../reports/report.html

@@ -1,7 +1,0 @@
-4
-this method gets the contrast ratio
-ContrastChecker
-getContrastRatio()
-0,0,0;0,0,0
-1.0
-# --END--
