@@ -28,7 +28,7 @@ echo "</TR>" >> ../reports/report.html
 javac ../testCasesExecutables/*
 wait
 
-for file in ../testCases/*
+for file in ../testCases/*.txt
 do
   i=0;
   filenopath=${file##*/}
