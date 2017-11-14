@@ -73,7 +73,7 @@ echo "<TR ALIGN='CENTER'>" >> ../reports/report.html
     [[ "${line:0:2}" = "//" ]] && continue
     printf "<TD>" >> ../reports/report.html
     arr[$i]="$line"
-    printf "${arr[$i]}" >> ../reports/report.html
+    echo "${arr[$i]}" >> ../reports/report.html
     echo "</TD>" >> ../reports/report.html
     i=$((i+1))
   done < $file
