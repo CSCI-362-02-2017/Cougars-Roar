@@ -3,7 +3,7 @@ import java.awt.Color;
 public class ColorConverterDriver {
     public static void main(String[] args){
   
-      String method = "hex2rgb()";
+      String method = args[3];
       String inputs = args[4];
       String expected = args[5];
   
