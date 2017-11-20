@@ -19,8 +19,13 @@ public class ColorConverterDriver {
   
         Color rgbColor = new Color(rgbint[0],rgbint[1],rgbint[2]);
         String actual = ColorConverter.rgb2Hsl(rgbColor);
-        Boolean result = actual.equals(expected);
+        //Boolean result = actual.equals(expected);
+        Boolean compareResults = actual.toString().equals(expected);
         
+        String result = "Failed";
+        if(compareResults.toString().equals("true"))
+        result = "Passed";
+         
         System.out.println(actual);
         System.out.println(result.toString());
       }
@@ -33,7 +38,12 @@ public class ColorConverterDriver {
         Color actualColor = ColorConverter.hex2Rgb(rgb);
         if(actualColor==null){
           String actual = "null";
-          Boolean result = actual.toString().equals(expected);
+          
+          //Boolean result = actual.toString().equals(expected);
+          Boolean compareResults = actual.toString().equals(expected);
+        String result = "Failed";
+        if(compareResults.toString().equals("true"))
+        result = "Passed";
 
           System.out.println(actual);
           System.out.println(result.toString());
@@ -45,9 +55,12 @@ public class ColorConverterDriver {
         Integer b = actualColor.getBlue();
 
         String actual = r.toString()+","+g.toString()+","+b.toString();
-        Boolean result = actual.toString().equals(expected);
-
-        System.out.println(actual.toString());
+        Boolean compareResults = actual.toString().equals(expected);
+        String result = "Failed";
+        if(compareResults.toString().equals("true"))
+        result = "Passed";
+           
+		  System.out.println(actual.toString());
         System.out.println(result.toString());
         }
       }

@@ -90,4 +90,5 @@ done
 
 echo "</TABLE>" >> ../reports/report.html
 rm -rf ../testCasesExecutables/*.class
-firefox ../reports/report.html | open ../reports/report.html
+firefox ../reports/report.html |xdg-open ../reports/report.html
+

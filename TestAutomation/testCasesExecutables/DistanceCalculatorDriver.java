@@ -45,7 +45,14 @@ public class DistanceCalculatorDriver {
 
       //gets result and compares to expected
       Double actual = DistanceCalculator.calculate(colorToChange, colorToKeep);
-      Boolean result = actual.toString().equals(expected);
+      //Boolean result = actual.toString().equals(expected);
+      Boolean compareResults = actual.toString().equals(expected);
+        String result;
+        if(compareResults.toString().equals("true"))
+        result = "Passed";
+        else
+        result = "Failed";
+       
 
       System.out.println(actual.toString());
       System.out.println(result.toString());

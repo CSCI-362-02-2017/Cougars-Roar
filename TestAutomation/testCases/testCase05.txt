@@ -1,7 +1,7 @@
 5
 this method gets the contrast ratio
 ContrastChecker
-getContrastRatio()
+getContrastRatio5DigitRound()
 212,212,212;28,28,28
-11.50
+11.5
 // --END--

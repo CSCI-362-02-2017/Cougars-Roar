@@ -32,13 +32,20 @@ public class ContrastCheckerDriver {
 
       Color rgbColor = new Color(rgbint[0],rgbint[1],rgbint[2]);
       Double actual = ContrastChecker.getLuminosity(rgbColor);
-      Boolean result = actual.toString().equals(expected);
+      //Boolean result = actual.toString().equals(expected);
+      Boolean compareResults = actual.toString().equals(expected);
+        String result;
+        if(compareResults.toString().equals("true"))
+        result = "Passed";
+        else
+        result = "Failed";
+       
       
       System.out.println(actual.toString());
       System.out.println(result.toString());
     }
 
-    if(method.equals("getContrastRatio()"))
+    if(method.equals("getContrastRatio5DigitRound()"))
     {
       //formatting inputs
       String[] fgrgb = inputList[0].split(",");
@@ -58,11 +65,19 @@ public class ContrastCheckerDriver {
       Color bgcolor = new Color(bgint[0], bgint[1], bgint[2]);
 
       //gets result and compares to expected
-      Double actual = ContrastChecker.getConstrastRatio(fgcolor,bgcolor);
-      Boolean result = actual.toString().equals(expected);
+      Double actual = ContrastChecker.getConstrastRatio5DigitRound(fgcolor,bgcolor);
+      //Boolean result = actual.toString().equals(expected);
+      Boolean compareResults = actual.toString().equals(expected);
+        String result;
+        if(compareResults.toString().equals("true"))
+        result = "Passed";
+        else
+        result = "Failed";
+       
 
       System.out.println(actual.toString());
-      System.out.println(result.toString());
+      //System.out.println(result.toString());
+      System.out.println(result);
     }
   }
 }

@@ -47,7 +47,7 @@ public final class ContrastChecker {
     /* */
     private static final double LUMINANCE_EXP = 2.4;
     /* */
-    private static final int ROUND_VALUE = 100000;
+    private static final int ROUND_VALUE = 100;
 
     /**
      *
