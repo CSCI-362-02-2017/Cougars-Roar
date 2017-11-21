@@ -4,5 +4,5 @@ ColorConverter
 hex2rgb()
 #000
 0,0,0
-0,0,0
-Passed
+null
+Failed

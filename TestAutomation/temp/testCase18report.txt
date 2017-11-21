@@ -4,5 +4,5 @@ ColorConverter
 rgb2hsl()
 255,255,255
 hsl(0, 0%, 100%)
-hsl(0, 0%, 100%)
-Passed
+hsl(0, 0%, 400%)
+Failed

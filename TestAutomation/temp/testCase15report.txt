@@ -4,5 +4,5 @@ DistanceCalculator
 calculate()
 2,2,2;0,0,0
 2.88
-2.88
-Passed
+2.0
+Failed

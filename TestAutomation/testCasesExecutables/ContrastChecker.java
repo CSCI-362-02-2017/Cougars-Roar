@@ -97,8 +97,14 @@ public final class ContrastChecker {
     public static double getConstrastRatio5DigitRound(final Color fgColor, final Color bgColor) {
         double fgLuminosity = getLuminosity(fgColor);
         double bgLuminosity = getLuminosity(bgColor);
-        if (fgLuminosity > bgLuminosity) {
+        /*
+        injected fault by changing '>' for '<'
+        */
+        if(fgLuminosity < bgLuminosity) {
+       //if(fgLuminosity > bgLuminosity) {
             return (double) Math.round(computeContrast(fgLuminosity, bgLuminosity) * ROUND_VALUE) / ROUND_VALUE;
+           
+            
         } else {
             return (double) Math.round(computeContrast(bgLuminosity, fgLuminosity) * ROUND_VALUE) / ROUND_VALUE;
         }
@@ -122,7 +128,13 @@ public final class ContrastChecker {
     public static double getLuminosity(Color color) {
         double luminosity =
                 getComposantValue(color.getRed()) * RED_FACTOR
-                + getComposantValue(color.getGreen()) * GREEN_FACTOR
+                + getComposantValue(color.getGreen()) * RED_FACTOR
+                /*-----------------------------------------------------------
+                 injected Fault by changing GREEN_FACTOR to RED_FACTOR
+                 original code below this line , commented it out*/
+                        
+              //+ getComposantValue(color.getGreen()) * GREEN_FACTOR 
+                
                 + getComposantValue(color.getBlue()) * BLUE_FACTOR;
 
         return luminosity;
