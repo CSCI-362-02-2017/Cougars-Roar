@@ -1,8 +1,0 @@
-12
-Calculates color's distance
-DistanceCalculator
-calculate()
-0,0,0;0,0,0
-0.0
-0.0
-Passed

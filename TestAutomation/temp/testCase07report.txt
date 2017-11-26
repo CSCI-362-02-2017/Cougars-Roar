@@ -1,8 +1,0 @@
-7
-this method gets the luminosity
-ContrastChecker
-getLuminosity()
-0,0,0
-0.0
-0.0
-Passed
