@@ -128,12 +128,11 @@ public final class ColorConverter {
                     && str.length() == RGB_HEXA_LENGTH) {
                 return getNewColor(str);
             } else if (str.matches(HEXADECIMAL_DICTIONNARY)
-                   // && str.length() == RGB_SHORT_HEXA_LENGTH) {
+                    && str.length() == RGB_SHORT_HEXA_LENGTH) {
                    /*
                     //injected Fault, does not accepts short_hexa input
                     right code above this comment.
                    */
-                    && str.length() == RGB_HEXA_LENGTH) { 
                 return getNewColorShortHexa(str);
             }
         } else if (colorStr.matches(HEXADECIMAL_DICTIONNARY)) {
@@ -207,9 +206,8 @@ public final class ColorConverter {
         Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), hsvTab);
         float h = hsvTab[HUE] * MAX_ANGLE;
         float l = (CONSTANT_SL_COMPONENTS_TWO - (hsvTab[SATURATION] * CONSTANT_SL_COMPONENTS_HUNDRED) / CONSTANT_SL_COMPONENTS_HUNDRED)
-                //* (hsvTab[BRIGHTNESS] * CONSTANT_SL_COMPONENTS_HUNDRED) / CONSTANT_SL_COMPONENTS_TWO;
-                //--------------------------------------------------------------------------------------------------------------
-                * (hsvTab[BRIGHTNESS] * CONSTANT_SL_COMPONENTS_HUNDRED) * CONSTANT_SL_COMPONENTS_TWO;/* changed  						'*'(CONSTANT_SL_COMPONENTS_HUNDRED to '+'to add /fault-injected---------------------*/	
+                * (hsvTab[BRIGHTNESS] * CONSTANT_SL_COMPONENTS_HUNDRED) / CONSTANT_SL_COMPONENTS_TWO;
+                //(hsvTab[BRIGHTNESS] * CONSTANT_SL_COMPONENTS_HUNDRED) * CONSTANT_SL_COMPONENTS_TWO; //Fault Injection * becomes /	
         float s = (hsvTab[SATURATION] * CONSTANT_SL_COMPONENTS_HUNDRED) * (hsvTab[BRIGHTNESS] * CONSTANT_SL_COMPONENTS_HUNDRED)
                 / (l < CONSTANT_S_COMPONENTS_FIFTY ? l * CONSTANT_SL_COMPONENTS_TWO : CONSTANT_S_COMPONENTS_TWO_HUNDRED - l * CONSTANT_SL_COMPONENTS_TWO);
         return ("hsl(" + Float.valueOf(h).intValue()
