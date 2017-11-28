@@ -91,4 +91,4 @@ done
 echo "</TABLE>" >> ../reports/report.html
 rm -rf ../testCasesExecutables/*.class
 #open only included for testing on mac (redirection(2>&1) to remove cp error)
-firefox ../reports/report.html 2>&1|xdg-open ../reports/report.html 2>&1|open ../reports/report.html 2>&1
+xdg-open ../reports/report.html 2>&1||open ../reports/report.html 2>&1
