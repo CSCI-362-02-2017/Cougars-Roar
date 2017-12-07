@@ -4,6 +4,8 @@
 
 # A shell script to execute multiple test case executables
 
+cd $(dirname $0)
+
 #cant compile compiled java classes
 rm -rf ../testCasesExecutables/*.class
 rm -rf ../reports/report.html
